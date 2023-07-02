@@ -1,0 +1,31 @@
+<div class="card" style="width: 28rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{task.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{task.description}}</h6>
+        <h6 >Due Date : <span [ngStyle]="{'color':compareWithCurrentDate(task.dueDate)?'green':'red'}">{{dateToWord(task.dueDate)}}</span></h6>
+        <h6> Priority : <span [ngStyle]="{'color':task.priority===taskPriority.LOW?'green':task.priority === taskPriority.MEDIUM?'orange':'red'}">{{task.priority}}</span></h6>
+        <h6 *ngIf="project.owner === currentUser.id; else elseBlock">Assigned To :
+            <select class="form-select" aria-label="Default select example" style="display: inline-block;" [(ngModel)]="task.assignedUser" (ngModelChange)="updateAssigedUser($event)">
+            <option *ngFor="let option of project.users" value="{{option}}">{{usernameFromId(option)}}</option>
+            </select></h6>
+        <ng-template #elseBlock>
+            <h6> Assigned To :
+            {{usernameFromId(task.assignedUser)}}
+        </h6>
+        </ng-template>
+        <h6 *ngIf="task.assignedUser === currentUser.id ;else elseBlock2">Status : <span [ngStyle]="{'color':task.status === taskStatus.COMPLETED?'green':task.status === taskStatus.INPROGRESS?'blue':task.status === taskStatus.ONHOLD?'purple':'orange'}">
+            <!-- {{task.status}} -->
+            <select class="form-select" aria-label="Default select example" style="display: inline-block;" [(ngModel)]="task.status" (ngModelChange)="updateTaskStatus($event)">
+                <option *ngFor="let option of taskStatusKeys" value="{{option}}">{{option}}</option>
+            </select>
+        </span>
+    </h6>
+    <ng-template #elseBlock2>
+        <h6> status : <span [ngStyle]="{'color':task.status === taskStatus.COMPLETED?'green':task.status === taskStatus.INPROGRESS?'blue':task.status === taskStatus.ONHOLD?'purple':'orange'}">{{task.status}}</span>
+    </h6>
+    </ng-template>
+        <h6>Project : {{projectName}}</h6>
+        <button class="btn btn-danger mb-3" *ngIf="project.owner === currentUser.id" (click)="DeleteTask(task.id)">delete</button>
+        <button class="btn btn-success mb-3" *ngIf="task.assignedUser === currentUser.id" (click)="HandleClick()">Update task</button>
+    </div>
+</div>

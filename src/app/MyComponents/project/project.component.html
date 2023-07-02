@@ -1,0 +1,58 @@
+<h1>{{ProjectInfo.name}}</h1>
+<div class="row">
+<div class="container-fluid col-7" *ngIf="ProjectInfo.owner ===currentUser.id">
+  <h1>Create Task </h1>
+  <form class="row g-3" (ngSubmit)="onSubmit()" >
+    <div class="col-auto">
+      <label for="name" class="visually-hidden">title</label>
+      <input type="text" [(ngModel)]="title" name="title" class="form-control" id="title" placeholder="Task Title">
+    </div>
+    <div class="col-auto">
+      <label for="name" class="visually-hidden">description</label>
+      <input type="text" [(ngModel)]="description" name="description" class="form-control" id="description" placeholder="Task description">
+      
+    </div>
+    <div class="col-auto">
+      <label for="name" class="visually-hidden">due Date</label>
+      <input type="date" [(ngModel)]="dueDate" name="dueDate" class="form-control" id="dueDate" placeholder="Task description">
+    </div>
+    <div class="col-auto">
+      <select class="form-select" aria-label="Default select example" style="display: inline-block;" [(ngModel)]="selectedOption" name="priority">
+        <option value="Select a Value" disabled>Priority</option>
+        <option *ngFor="let option of taskPriorityKeys" value="{{option}} ">{{option}}</option>
+    </select>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-3">Create</button>
+    </div>
+    <div class="col-auto" *ngIf="errorStatus" style="color: red;">
+      {{error}}
+    </div>
+  </form>
+</div>
+<div class="col" *ngIf="ProjectInfo.owner ===currentUser.id">
+  <h1 >Add user</h1>
+  <form class="row g-3" (ngSubmit)="AddUser()">
+    <div class="col-auto">
+      <select class="form-select" aria-label="Default select example" style="display: inline-block;" [(ngModel)]="selectedUser"  name="user">
+        <option value="Select a Value" disabled>User</option>
+        <option *ngFor="let option of userlist" value="{{option.id}}" [disabled]="ProjectInfo.users.includes(option.id)">{{option.name}}</option>
+    </select>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-3">Add</button>
+    </div>
+    <div class="col-auto" *ngIf="errorStatus2" style="color: red;">
+      {{error2}}
+    </div>
+  </form>
+</div>
+<div class="d-flex align-content-start flex-wrap" style="padding: 10px;">
+  <div class="col px-2" *ngFor="let task of tasks">
+    <div class="row" style="padding: 10px;" *ngIf="true">
+      <app-task-item [task]="task" [projectName]="ProjectInfo.name"></app-task-item>
+    </div>
+  </div>
+</div>
+</div>
+

@@ -1,0 +1,8 @@
+<div class="card" style="width: 30rem;">
+    <h1>Tasks</h1>
+    <ul class="list-group list-group-flush" *ngFor="let task of tasks">
+      <li class="list-group-item">
+        <app-task-item [task]="task"></app-task-item>
+    </li>
+    </ul>
+  </div>

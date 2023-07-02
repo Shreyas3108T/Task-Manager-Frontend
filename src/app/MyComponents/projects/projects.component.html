@@ -1,0 +1,42 @@
+<div class="container-fluid">
+  <h1>Create Project</h1>
+  <form class="row g-3" (ngSubmit)="onSubmit()">
+    <div class="col-auto">
+      <label for="name" class="visually-hidden">name</label>
+      <input type="text" [(ngModel)]="name" name="name" class="form-control" id="name" placeholder="Project Name">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-3">Create</button>
+    </div>
+    <div class="col-auto" *ngIf="errorStatus" style="color: red;">
+      {{error}}
+    </div>
+  </form>
+</div>
+<div class="card">
+    <div class="card-header">
+      Projects Owned
+    </div>
+    <div class="card-body" *ngIf="NoProjects">
+      {{NoProjectMsg}}
+    </div>
+    <div class="card-body" *ngFor="let project of Projects">
+      <h5 class="card-title">{{project.name}}</h5>
+      <p class="card-text">Owner : {{UserName(project.owner)}}</p>
+      <a routerLink="/Projects/{{project.id}}" class="btn btn-primary">Open Project</a>
+      <button class="btn btn-danger stick-right" style="padding:5px ;" (click)="DeleteProject(project.id)" >delete</button>
+    </div>
+      <div class="card-header">
+        Projects Part Of
+      </div>
+      <div class="card-body" *ngIf="NoProjectsPartof">
+        {{NoProjectPartofMsg}}
+      </div>
+      <div class="card-body" *ngFor="let project of ProjectsPartOf">
+        <h5 class="card-title">{{project.name}}</h5>
+        <p class="card-text">Owner : {{UserName(project.owner)}}</p>
+        <a routerLink="/Projects/{{project.id}}" class="btn btn-primary">Open Project</a>
+      </div>
+  </div>
+
+  
